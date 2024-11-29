@@ -1,0 +1,16 @@
+services:
+  warp:
+    build: .
+    container_name: warp-socks
+    restart: always
+    cap_add:
+      - NET_ADMIN
+      
+  ubuntu:
+    image: ubuntu:latest
+    container_name: ubuntu-service
+    restart: always
+    tty: true
+    stdin_open: true
+    depends_on:
+      - warp
