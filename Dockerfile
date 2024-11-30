@@ -21,8 +21,11 @@ RUN mkdir -p --mode=0755 /usr/share/keyrings \
   && echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/cloudflare-client.list
 
 # Install WARP client with correct package name
-RUN apt-get update && apt-get install -y cloudflare-warp \
+RUN apt-get update && apt-get install -y cloudflare-warp dbus \
   && rm -rf /var/lib/apt/lists/*
+
+# Create necessary directories for DBUS
+RUN mkdir -p /var/run/dbus
 
 # Entrypoint script for WARP initialization
 COPY entrypoint.sh /

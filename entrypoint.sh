@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# Start DBUS daemon
+dbus-daemon --system --nofork --nopidfile &
+
+# Start WARP service
 warp-svc &
 
 # Wait for warp-svc to be ready
