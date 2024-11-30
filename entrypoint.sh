@@ -4,7 +4,7 @@
 dbus-daemon --system --nofork --nopidfile &
 
 # Start WARP service
-warp-svc &
+warp-svc > /dev/null &
 
 # Wait for warp-svc to be ready
 max_attempts=30
