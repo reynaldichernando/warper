@@ -5,6 +5,8 @@ services:
     restart: always
     cap_add:
       - NET_ADMIN
+    ports:
+      - 1080:1080
       
   ubuntu:
     image: ubuntu:latest
