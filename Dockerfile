@@ -8,12 +8,19 @@ RUN apt-get update && apt-get install -y \
   tar \
   && rm -rf /var/lib/apt/lists/*
 
-# Install TinyPortMapper
-RUN wget https://github.com/wangyu-/tinyPortMapper/releases/download/20200818.0/tinymapper_binaries.tar.gz && \
-  tar -xzf tinymapper_binaries.tar.gz && \
-  chmod +x tinymapper_amd64 && \
-  mv tinymapper_amd64 /usr/local/bin/tinymapper && \
-  rm tinymapper_binaries.tar.gz
+# Download TinyPortMapper
+RUN wget https://github.com/wangyu-/tinyPortMapper/releases/download/20200818.0/tinymapper_binaries.tar.gz
+
+# Install TinyPortMapper with architecture detection
+RUN tar -xzf tinymapper_binaries.tar.gz && \
+    if [ "$(uname -m)" = "aarch64" ] || [ "$(uname -m)" = "arm64" ]; then \
+        chmod +x tinymapper_arm && \
+        mv tinymapper_arm /usr/local/bin/tinymapper; \
+    else \
+        chmod +x tinymapper_amd64 && \
+        mv tinymapper_amd64 /usr/local/bin/tinymapper; \
+    fi && \
+    rm tinymapper_binaries.tar.gz
 
 # Add Cloudflare repository with correct URL and key
 RUN mkdir -p --mode=0755 /usr/share/keyrings \
